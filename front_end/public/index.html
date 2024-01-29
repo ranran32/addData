@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Record</title>
+</head>
+<body>
+    
+  
+        <form id="addForm">
+            <label for="name">Fullname</label>
+            <input type="text" name="name" id="name" placeholder="enter Fullname">
+            <br>
+            <br>
+            <label for="email">email</label>
+            <input type="text" name="email" id="email" placeholder="enter email">
+            <br>
+            <br>
+        <button type="submit" id="addProfile">Add Profile</button>
+    
+        </form>
+
+        
+        <script>
+         document.getElementById('addProfile').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            addUser();
+        });
+
+            async function addUser() {
+                const web_url= 'http://localhost:5100/addRecord';
+
+                const formData= {
+                    name:document.getElementById('name').value,
+                    email:document.getElementById('email').value,
+                
+                };
+                try {
+                    const result = await fetch(web_url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body:JSON.stringify(formData),
+                    })
+                    const newUser= await result.json();
+                    localStorage.setItem('newRecord', JSON.stringify(newUser));
+                    window.location.href='http://localhost:3100/contactUs';
+                }
+                catch (error) {
+                    console.log('error occured');
+                }
+            }
+
+        </script>
+  
+
+</body>
+</html>
